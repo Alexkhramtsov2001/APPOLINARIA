@@ -1,0 +1,601 @@
+/* =============================================================
+   base.css — фундамент
+   Appolinaria Vorobyeva // Graphic & Motion
+   VERSION 4 — переменные для HUD-разделения секций
+   ============================================================= */
+
+/* ---------- ПЕРЕМЕННЫЕ ---------- */
+:root {
+    /* Тёмная база */
+    --bg-deep:      #06060a;
+    --bg-base:      #0a0a12;
+    --bg-panel:     #10101a;
+    --bg-elev:      #181824;
+    --bg-soft:      #1f1f2e;
+
+    /* Ядрёные неоны */
+    --neon-cyan:    #00f0ff;
+    --neon-magenta: #ff00aa;
+    --neon-lime:    #b4ff39;
+    --neon-violet:  #9d4edd;
+    --neon-yellow:  #ffea00;
+    --neon-orange:  #ff6b35;
+
+    /* Акценты */
+    --accent:       var(--neon-cyan);
+    --accent-2:     var(--neon-magenta);
+    --accent-3:     var(--neon-lime);
+
+    /* Свечения */
+    --glow-accent:    0 0 5px var(--accent), 0 0 20px var(--accent), 0 0 40px rgba(0, 240, 255, 0.3);
+    --glow-accent-sm: 0 0 4px var(--accent), 0 0 12px rgba(0, 240, 255, 0.5);
+    --glow-magenta:   0 0 5px var(--neon-magenta), 0 0 20px var(--neon-magenta);
+
+    /* Текст */
+    --text:         #e8e8f0;
+    --text-dim:     #9090a8;
+    --text-faint:   #4a4a5a;
+    --text-ghost:   #2a2a3a;
+
+    /* Границы */
+    --border:        rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(0, 240, 255, 0.35);
+
+    /* HUD-разделение секций */
+    --section-panel-bg:      rgba(6, 6, 10, 0.55);
+    --section-panel-bg-alt:  rgba(10, 10, 18, 0.75);
+    --section-panel-blur:    10px;
+    --section-divider-color: rgba(0, 240, 255, 0.4);
+    --section-divider-glow:  0 0 12px rgba(0, 240, 255, 0.5);
+
+    /* Шрифты */
+    --font-mono: 'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+    --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+    /* Ритм */
+    --container: 1280px;
+    --gutter:    clamp(1rem, 4vw, 2rem);
+    --py:        clamp(4rem, 10vw, 8rem);
+
+    /* Радиусы */
+    --r-sm:   4px;
+    --r-md:   8px;
+    --r-lg:   16px;
+    --r-pill: 999px;
+
+    /* Кривые анимаций */
+    --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-in-out:    cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Длительности */
+    --t-fast: 0.2s;
+    --t-mid:  0.4s;
+    --t-slow: 0.8s;
+
+    /* z-index */
+    --z-canvas:   0;
+    --z-content:  10;
+    --z-nav:      100;
+    --z-menu:     200;
+    --z-glitch:   9000;
+    --z-cursor:   9999;
+    --z-boot:     10000;
+    --z-toast:    9500;
+}
+
+/* =============================================================
+   РЕСЕТ
+   ============================================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: var(--bg-deep);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100dvh;
+    position: relative;
+    hyphens: none;
+    word-wrap: normal;
+}
+
+body.menu-open,
+body.boot-active {
+    overflow: hidden;
+}
+
+img { max-width: 100%; display: block; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; }
+ul, ol { list-style: none; }
+
+:focus { outline: none; }
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: var(--r-sm);
+    box-shadow: var(--glow-accent-sm);
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--bg-deep);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    border-radius: var(--r-pill);
+    border: 2px solid var(--bg-base);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+/* =============================================================
+   КОНТЕЙНЕР
+   ============================================================= */
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+    position: relative;
+    z-index: var(--z-content);
+}
+
+/* =============================================================
+   ТИПОГРАФИКА
+   ============================================================= */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    hyphens: none;
+    word-wrap: normal;
+}
+
+p { color: var(--text-dim); }
+
+.mono { font-family: var(--font-mono); }
+
+.text-accent  { color: var(--accent); }
+.text-magenta { color: var(--accent-2); }
+.text-lime    { color: var(--accent-3); }
+.text-dim     { color: var(--text-dim); }
+.text-faint   { color: var(--text-faint); }
+
+/* =============================================================
+   НЕОНОВЫЕ УТИЛИТЫ
+   ============================================================= */
+.neon {
+    color: var(--accent);
+    text-shadow: var(--glow-accent);
+}
+
+.neon-magenta {
+    color: var(--accent-2);
+    text-shadow: var(--glow-magenta);
+}
+
+.neon-border {
+    border: 1px solid var(--accent);
+    box-shadow:
+        inset 0 0 8px rgba(0, 240, 255, 0.15),
+        0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+.dot-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-3);
+    box-shadow: 0 0 8px var(--accent-3);
+    animation: dot-pulse 2s ease-in-out infinite;
+    vertical-align: middle;
+}
+
+@keyframes dot-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 8px var(--accent-3);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.7);
+        box-shadow: 0 0 16px var(--accent-3), 0 0 32px var(--accent-3);
+    }
+}
+
+/* =============================================================
+   CANVAS — единственный фоновый слой
+   ============================================================= */
+.bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: var(--z-canvas);
+    pointer-events: none;
+    display: block;
+    background: transparent;
+    opacity: 0.95;
+}
+
+/* =============================================================
+   ГЛИТЧ-СЛОИ
+   ============================================================= */
+.glitch-layer {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-glitch);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.glitch-layer__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.glitch-layer__bar.is-active {
+    animation: glitch-bar 0.4s steps(4) forwards;
+}
+
+@keyframes glitch-bar {
+    0%   { opacity: 0; transform: translateX(-100%); }
+    20%  { opacity: 1; transform: translateX(0); }
+    60%  { opacity: 0.8; transform: translateX(2%); }
+    100% { opacity: 0; transform: translateX(100%); }
+}
+
+/* =============================================================
+   SCROLL PROGRESS
+   ============================================================= */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 9997;
+    background: transparent;
+    pointer-events: none;
+}
+
+.scroll-progress__fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,
+        var(--accent) 0%,
+        var(--accent-2) 50%,
+        var(--accent-3) 100%);
+    box-shadow:
+        0 0 8px var(--accent),
+        0 0 16px var(--accent-2);
+    transition: width 0.1s linear;
+    will-change: width;
+}
+
+/* =============================================================
+   BOOT-ЭКРАН
+   ============================================================= */
+.boot {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-boot);
+    background: var(--bg-deep);
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s var(--ease-out-expo),
+        visibility 0.5s var(--ease-out-expo),
+        transform 0.6s var(--ease-out-expo);
+}
+
+.boot.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.boot.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.boot__screen {
+    width: 100%;
+    max-width: 640px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent-3);
+}
+
+.boot__log {
+    min-height: 240px;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    text-shadow: 0 0 6px var(--accent-3);
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid var(--border-accent);
+    background: rgba(16, 16, 26, 0.6);
+    border-radius: var(--r-md);
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.boot__log::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3);
+}
+
+.boot__log .boot-line {
+    display: block;
+    opacity: 0;
+    animation: boot-line-in 0.2s ease-out forwards;
+}
+
+.boot__log .boot-line--ok   { color: var(--accent); }
+.boot__log .boot-line--warn { color: var(--neon-yellow); }
+.boot__log .boot-line--ok::after { content: ' ✓'; }
+.boot__log .boot-line--done { color: var(--accent-3); }
+
+@keyframes boot-line-in {
+    to { opacity: 1; }
+}
+
+.boot__bar {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-elev);
+    border-radius: var(--r-pill);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border);
+}
+
+.boot__bar-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-3), var(--accent), var(--accent-2));
+    box-shadow: 0 0 12px var(--accent);
+    transition: width 0.2s linear;
+    will-change: width;
+}
+
+.boot__hint {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    letter-spacing: 0.2em;
+    text-align: center;
+}
+
+.boot__hint kbd {
+    padding: 2px 8px;
+    border: 1px solid var(--text-faint);
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.boot__scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 240, 255, 0.04) 3px,
+            transparent 4px
+        );
+    mix-blend-mode: screen;
+    animation: scanlines-drift 8s linear infinite;
+}
+
+@keyframes scanlines-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100px; }
+}
+
+/* =============================================================
+   TOAST
+   ============================================================= */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translate(-50%, 150%);
+    padding: 1rem 1.75rem;
+    background: var(--bg-panel);
+    border: 1px solid var(--accent);
+    border-radius: var(--r-md);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow:
+        var(--glow-accent),
+        0 20px 40px rgba(0, 0, 0, 0.6);
+    z-index: var(--z-toast);
+    opacity: 0;
+    pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+    transition:
+        transform var(--t-mid) var(--ease-out-expo),
+        opacity var(--t-mid) var(--ease-out-expo);
+    will-change: transform, opacity;
+}
+
+.toast::before {
+    content: '> ';
+    color: var(--accent-3);
+}
+
+.toast.is-shown {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+/* =============================================================
+   REVEAL-УТИЛИТЫ
+   ============================================================= */
+html.js-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity var(--t-slow) var(--ease-out-expo),
+        transform var(--t-slow) var(--ease-out-expo),
+        filter var(--t-slow) var(--ease-out-expo);
+    filter: blur(6px);
+    will-change: opacity, transform;
+}
+
+html.js-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+html.js-ready [data-reveal][style*="--stagger"] {
+    transition-delay: var(--stagger);
+}
+
+/* =============================================================
+   СКРЫТИЕ ОБЫЧНОГО КУРСОРА
+   ============================================================= */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"],
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor .skill,
+html.has-custom-cursor .work-card,
+html.has-custom-cursor .contact {
+    cursor: none;
+}
+
+/* =============================================================
+   УМЕНЬШЕННАЯ АНИМАЦИЯ
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html.js-ready [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    .boot__scanlines {
+        animation: none !important;
+    }
+}
+
+/* =============================================================
+   ТЕМЫ ПАЛИТР
+   ============================================================= */
+html[data-palette="cyan"] {
+    --accent:   var(--neon-cyan);
+    --accent-2: var(--neon-magenta);
+    --accent-3: var(--neon-lime);
+    --glow-accent:    0 0 5px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px rgba(0, 240, 255, 0.3);
+    --glow-accent-sm: 0 0 4px var(--neon-cyan), 0 0 12px rgba(0, 240, 255, 0.5);
+    --border-accent:  rgba(0, 240, 255, 0.35);
+    --section-divider-color: rgba(0, 240, 255, 0.4);
+    --section-divider-glow:  0 0 12px rgba(0, 240, 255, 0.5);
+}
+
+html[data-palette="magenta"] {
+    --accent:   var(--neon-magenta);
+    --accent-2: var(--neon-violet);
+    --accent-3: var(--neon-cyan);
+    --glow-accent:    0 0 5px var(--neon-magenta), 0 0 20px var(--neon-magenta), 0 0 40px rgba(255, 0, 170, 0.3);
+    --glow-accent-sm: 0 0 4px var(--neon-magenta), 0 0 12px rgba(255, 0, 170, 0.5);
+    --border-accent:  rgba(255, 0, 170, 0.35);
+    --section-divider-color: rgba(255, 0, 170, 0.4);
+    --section-divider-glow:  0 0 12px rgba(255, 0, 170, 0.5);
+}
+
+html[data-palette="lime"] {
+    --accent:   var(--neon-lime);
+    --accent-2: var(--neon-cyan);
+    --accent-3: var(--neon-yellow);
+    --glow-accent:    0 0 5px var(--neon-lime), 0 0 20px var(--neon-lime), 0 0 40px rgba(180, 255, 57, 0.3);
+    --glow-accent-sm: 0 0 4px var(--neon-lime), 0 0 12px rgba(180, 255, 57, 0.5);
+    --border-accent:  rgba(180, 255, 57, 0.35);
+    --section-divider-color: rgba(180, 255, 57, 0.4);
+    --section-divider-glow:  0 0 12px rgba(180, 255, 57, 0.5);
+}
+
+html[data-palette="violet"] {
+    --accent:   var(--neon-violet);
+    --accent-2: var(--neon-magenta);
+    --accent-3: var(--neon-cyan);
+    --glow-accent:    0 0 5px var(--neon-violet), 0 0 20px var(--neon-violet), 0 0 40px rgba(157, 78, 221, 0.4);
+    --glow-accent-sm: 0 0 4px var(--neon-violet), 0 0 12px rgba(157, 78, 221, 0.6);
+    --border-accent:  rgba(157, 78, 221, 0.4);
+    --section-divider-color: rgba(157, 78, 221, 0.5);
+    --section-divider-glow:  0 0 12px rgba(157, 78, 221, 0.6);
+}

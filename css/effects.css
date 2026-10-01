@@ -1,0 +1,769 @@
+/* =============================================================
+   effects.css — неон, глитч, анимации, hover
+   Appolinaria Vorobyeva // Graphic & Motion
+   VERSION 3 — эффекты для HUD-разделителей
+   ============================================================= */
+
+/* =============================================================
+   СКРЫТИЕ ОБЫЧНОГО КУРСОРА
+   ============================================================= */
+html.has-custom-cursor,
+html.has-custom-cursor body,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"],
+html.has-custom-cursor input,
+html.has-custom-cursor textarea {
+    cursor: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+    .cursor { display: none !important; }
+    html.has-custom-cursor,
+    html.has-custom-cursor body,
+    html.has-custom-cursor a,
+    html.has-custom-cursor button,
+    html.has-custom-cursor [role="button"] {
+        cursor: auto !important;
+    }
+}
+
+/* =============================================================
+   ПАРАЛЛАКС ОРБОВ
+   ============================================================= */
+.orb {
+    translate: 0 var(--parallax-y, 0);
+}
+
+/* =============================================================
+   ГЛИТЧ НА ЗАГОЛОВКАХ
+   ============================================================= */
+[data-glitch] {
+    position: relative;
+    display: inline-block;
+    color: var(--text);
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    hyphens: none;
+    word-break: keep-all;
+}
+
+[data-glitch]::before,
+[data-glitch]::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+    hyphens: none;
+    word-break: keep-all;
+}
+
+[data-glitch]::before {
+    color: var(--neon-magenta);
+    z-index: -1;
+    text-shadow: 0 0 8px var(--neon-magenta);
+}
+
+[data-glitch]::after {
+    color: var(--neon-cyan);
+    z-index: -2;
+    text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+[data-glitch]:hover::before,
+[data-glitch].is-glitching::before {
+    opacity: 1;
+    animation: glitch-before 0.35s steps(2) infinite;
+}
+
+[data-glitch]:hover::after,
+[data-glitch].is-glitching::after {
+    opacity: 1;
+    animation: glitch-after 0.35s steps(2) infinite;
+}
+
+@keyframes glitch-before {
+    0%   { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+    20%  { transform: translate(-2px, 1px); clip-path: inset(20% 0 60% 0); }
+    40%  { transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
+    60%  { transform: translate(-1px, 2px); clip-path: inset(10% 0 70% 0); }
+    80%  { transform: translate(3px, -2px); clip-path: inset(40% 0 40% 0); }
+    100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes glitch-after {
+    0%   { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+    20%  { transform: translate(2px, -1px); clip-path: inset(50% 0 30% 0); }
+    40%  { transform: translate(-2px, 1px); clip-path: inset(20% 0 60% 0); }
+    60%  { transform: translate(1px, -2px); clip-path: inset(70% 0 10% 0); }
+    80%  { transform: translate(-3px, 2px); clip-path: inset(30% 0 50% 0); }
+    100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+}
+
+/* =============================================================
+   TYPEWRITER — каретка
+   ============================================================= */
+[data-typewriter] {
+    position: relative;
+}
+
+[data-typewriter]::after {
+    content: '_';
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--accent);
+    animation: caret-blink 1s steps(2) infinite;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+[data-typewriter].typewriter-done::after {
+    animation: caret-blink 1.2s steps(2) infinite;
+}
+
+@keyframes caret-blink {
+    0%, 50%   { opacity: 0.9; }
+    51%, 100% { opacity: 0; }
+}
+
+/* =============================================================
+   GLITCH-HOVER на карточках
+   ============================================================= */
+[data-glitch-hover] {
+    position: relative;
+    transition:
+        transform var(--t-mid) var(--ease-out-expo),
+        border-color var(--t-mid) var(--ease-out-expo),
+        box-shadow var(--t-mid) var(--ease-out-expo);
+}
+
+[data-glitch-hover]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 0, 170, 0.08) 45%,
+            rgba(0, 240, 255, 0.08) 55%,
+            transparent 100%);
+    opacity: 0;
+    transition: opacity var(--t-fast);
+}
+
+[data-glitch-hover]:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 1px var(--accent),
+        0 0 24px rgba(0, 240, 255, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-glitch-hover]:hover::after {
+    opacity: 1;
+    animation: card-glitch 0.4s steps(2);
+}
+
+@keyframes card-glitch {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-3px); }
+    50%  { transform: translateX(3px); }
+    75%  { transform: translateX(-1px); }
+    100% { transform: translateX(0); }
+}
+
+/* =============================================================
+   WORK-CARD hover
+   ============================================================= */
+.work-card {
+    transition:
+        transform var(--t-mid) var(--ease-out-expo),
+        border-color var(--t-mid) var(--ease-out-expo),
+        box-shadow var(--t-mid) var(--ease-out-expo);
+}
+
+.work-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        var(--neon-cyan) 0%,
+        transparent 40%,
+        transparent 60%,
+        var(--neon-magenta) 100%);
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--t-mid) var(--ease-out-expo);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.work-card:hover {
+    transform: translateY(-6px);
+    border-color: transparent;
+    box-shadow:
+        0 0 24px rgba(0, 240, 255, 0.25),
+        0 0 48px rgba(255, 0, 170, 0.1),
+        0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.work-card:hover::before {
+    opacity: 1;
+}
+
+.work-card:hover .work-card__media {
+    background:
+        radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1), transparent 70%),
+        var(--bg-panel);
+}
+
+.work-card:hover .ph--pulse .ph-core { animation-duration: 1.2s; }
+.work-card:hover .ph--pulse .ph-ring { animation-duration: 1.5s; }
+.work-card:hover .ph--morph .ph-morph-path { animation-duration: 4s; }
+.work-card:hover .ph--waves .ph-wave { animation-duration: 1.8s; }
+
+/* =============================================================
+   CONTACT-CARD hover
+   ============================================================= */
+.contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle at var(--mx, 50%) var(--my, 50%),
+        rgba(0, 240, 255, 0.12),
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity var(--t-mid) var(--ease-out-expo);
+    pointer-events: none;
+}
+
+.contact:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 1px var(--accent),
+        0 0 32px rgba(0, 240, 255, 0.2),
+        0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.contact:hover::before {
+    opacity: 1;
+}
+
+.contact:hover .contact__icon {
+    filter: drop-shadow(0 0 16px var(--accent));
+    transform: scale(1.1) rotate(-3deg);
+}
+
+.contact:hover .contact__code {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent);
+    transition: color var(--t-mid), text-shadow var(--t-mid);
+}
+
+/* =============================================================
+   SKILL hover + анимированные иконки
+   ============================================================= */
+.skill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--accent),
+        transparent);
+    opacity: 0;
+    transition: opacity var(--t-fast);
+}
+
+.skill:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 1px var(--accent),
+        0 0 32px rgba(0, 240, 255, 0.15),
+        0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.skill:hover::before {
+    opacity: 1;
+    animation: skill-scan 1.2s var(--ease-out-expo) forwards;
+}
+
+@keyframes skill-scan {
+    0%   { left: -100%; }
+    100% { left: 100%; }
+}
+
+.skill:hover .skill__icon {
+    filter: drop-shadow(0 0 16px var(--accent));
+}
+
+.skill:hover .skill__num {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent);
+}
+
+.skill__icon-anim {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: icon-draw 3s var(--ease-out-expo) infinite;
+}
+
+.skill__icon-anim:nth-child(1) { animation-delay: 0s; }
+.skill__icon-anim:nth-child(2) { animation-delay: 0.3s; }
+.skill__icon-anim:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes icon-draw {
+    0%   { stroke-dashoffset: 300; opacity: 0.3; }
+    30%  { stroke-dashoffset: 0;   opacity: 1; }
+    70%  { stroke-dashoffset: 0;   opacity: 1; }
+    100% { stroke-dashoffset: -300; opacity: 0.3; }
+}
+
+/* =============================================================
+   PROCESS — hover
+   ============================================================= */
+.process__steps li:hover .process__num {
+    color: var(--bg-deep);
+    background: var(--accent);
+    box-shadow: 0 0 16px var(--accent);
+    transition: all var(--t-mid) var(--ease-out-expo);
+}
+
+/* =============================================================
+   КНОПКИ — радиальный отсвет
+   ============================================================= */
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--mx, 50%) var(--my, 50%),
+        rgba(255, 255, 255, 0.15),
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity var(--t-fast);
+    pointer-events: none;
+}
+
+.btn:hover::before {
+    opacity: 1;
+}
+
+/* =============================================================
+   NAV
+   ============================================================= */
+.nav__link.is-active {
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+}
+
+.nav__logo:hover {
+    box-shadow:
+        0 0 12px var(--accent),
+        0 0 24px rgba(0, 240, 255, 0.3);
+}
+
+/* =============================================================
+   SCROLLBAR
+   ============================================================= */
+::-webkit-scrollbar-thumb:active {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+/* =============================================================
+   MARQUEE — пауза при hover
+   ============================================================= */
+.marquee:hover .marquee__track {
+    animation-play-state: paused;
+}
+
+.marquee__track span:first-child,
+.marquee__track span:nth-child(3) {
+    color: var(--text);
+}
+
+/* =============================================================
+   SECTION GLOW (нечётные панели)
+   ============================================================= */
+.section--panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at top,
+        rgba(0, 240, 255, 0.03),
+        transparent 60%
+    );
+    opacity: 0;
+    animation: section-glow 12s ease-in-out infinite;
+}
+
+@keyframes section-glow {
+    0%, 90%, 100% { opacity: 0; }
+    45%, 55%      { opacity: 1; }
+}
+
+/* =============================================================
+   HUD-РАЗДЕЛИТЕЛИ СЕКЦИЙ
+   ============================================================= */
+
+/* Мягкая пульсация бейджа */
+.section__divider-label {
+    animation: divider-pulse 4s ease-in-out infinite;
+}
+
+@keyframes divider-pulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--section-divider-color),
+                    0 0 40px rgba(0, 240, 255, 0.15);
+    }
+}
+
+/* Hover на бейдже — усиление */
+.section__divider-label:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 24px var(--accent);
+}
+
+/* Точка перед номером секции */
+.section__divider-num::before {
+    content: '§ ';
+    opacity: 0.6;
+}
+
+/* Линия-разделитель — медленный световой пробег */
+.section__divider-line {
+    overflow: hidden;
+}
+
+.section__divider-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent),
+        transparent
+    );
+    box-shadow: 0 0 16px var(--accent);
+    animation: divider-sweep 6s ease-in-out infinite;
+}
+
+@keyframes divider-sweep {
+    0%   { left: -30%; opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* Уголки секций — при hover всей секции подсвечиваются ярче */
+.section:hover .section__corner {
+    opacity: 0.8;
+    width: 36px;
+    height: 36px;
+    transition: all var(--t-mid) var(--ease-out-expo);
+}
+
+/* =============================================================
+   ORBS — свечение
+   ============================================================= */
+.orb {
+    filter: blur(90px);
+    mix-blend-mode: screen;
+}
+
+/* =============================================================
+   TOAST — пульсация
+   ============================================================= */
+.toast.is-shown {
+    animation: toast-pulse 2s ease-in-out infinite;
+}
+
+@keyframes toast-pulse {
+    0%, 100% { box-shadow: var(--glow-accent); }
+    50%      { box-shadow: 0 0 5px var(--accent), 0 0 30px var(--accent); }
+}
+
+/* =============================================================
+   HERO TITLE — мягкое дыхание
+   ============================================================= */
+.hero__title {
+    text-shadow:
+        0 0 20px rgba(0, 240, 255, 0.12),
+        0 0 40px rgba(0, 240, 255, 0.05);
+    animation: hero-glow 6s ease-in-out infinite;
+}
+
+@keyframes hero-glow {
+    0%, 100% {
+        text-shadow:
+            0 0 20px rgba(0, 240, 255, 0.12),
+            0 0 40px rgba(0, 240, 255, 0.05);
+    }
+    50% {
+        text-shadow:
+            0 0 25px rgba(0, 240, 255, 0.22),
+            0 0 50px rgba(0, 240, 255, 0.1),
+            0 0 80px rgba(0, 240, 255, 0.05);
+    }
+}
+
+/* =============================================================
+   HEAD__EYEBROW — точка
+   ============================================================= */
+.head__eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    margin-right: 8px;
+    vertical-align: middle;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* =============================================================
+   SCAN LINE по секциям
+   ============================================================= */
+.section::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--accent),
+        transparent);
+    opacity: 0;
+    pointer-events: none;
+    animation: scan-section 15s ease-in-out infinite;
+}
+
+@keyframes scan-section {
+    0%, 90%, 100% {
+        top: 0;
+        opacity: 0;
+    }
+    45% {
+        top: 50%;
+        opacity: 0.1;
+    }
+}
+
+/* =============================================================
+   PORTRAIT
+   ============================================================= */
+.portrait:hover {
+    box-shadow:
+        0 0 0 1px var(--accent),
+        0 0 32px rgba(0, 240, 255, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.portrait:hover .portrait__scan {
+    animation-duration: 2s;
+}
+
+/* =============================================================
+   STATS
+   ============================================================= */
+.stat:hover .stat__num {
+    text-shadow:
+        0 0 20px var(--accent),
+        0 0 40px var(--accent);
+    transform: scale(1.05);
+    transition: all var(--t-mid) var(--ease-out-expo);
+}
+
+/* =============================================================
+   MAGNETIC
+   ============================================================= */
+[data-magnetic] {
+    will-change: transform;
+    transition:
+        transform 0.3s var(--ease-out-expo),
+        background var(--t-mid) var(--ease-out-expo),
+        color var(--t-mid) var(--ease-out-expo),
+        box-shadow var(--t-mid) var(--ease-out-expo);
+}
+
+/* =============================================================
+   СМЕНА ЯЗЫКА — глитч
+   ============================================================= */
+body.is-switching [data-i18n] {
+    animation: lang-glitch 0.3s steps(3) forwards;
+}
+
+@keyframes lang-glitch {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: hue-rotate(0deg);
+    }
+    20% {
+        opacity: 0.6;
+        transform: translateX(-4px);
+        filter: hue-rotate(90deg);
+    }
+    40% {
+        opacity: 0.8;
+        transform: translateX(3px);
+        filter: hue-rotate(-90deg);
+    }
+    60% {
+        opacity: 0.9;
+        transform: translateX(-2px);
+        filter: hue-rotate(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* =============================================================
+   КНОПКА ПАЛИТРЫ — вращение
+   ============================================================= */
+.ctrl--palette svg {
+    animation: palette-spin 8s linear infinite;
+}
+
+.ctrl--palette:hover svg {
+    animation-duration: 2s;
+}
+
+@keyframes palette-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+.footer__value .dot-pulse {
+    width: 6px;
+    height: 6px;
+}
+
+/* =============================================================
+   HUD-УГОЛКИ портрета
+   ============================================================= */
+.portrait:hover .portrait__corner {
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 12px var(--accent));
+    transition: all var(--t-mid) var(--ease-out-expo);
+}
+
+/* =============================================================
+   ИКОНКИ — тряска
+   ============================================================= */
+.contact:hover .contact__icon,
+.skill:hover .skill__icon {
+    animation: icon-shake 0.4s ease-out;
+}
+
+@keyframes icon-shake {
+    0%, 100% { transform: translateX(0) scale(1); }
+    25%      { transform: translateX(-2px) scale(1.05); }
+    75%      { transform: translateX(2px) scale(1.05); }
+}
+
+/* =============================================================
+   prefers-reduced-motion
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+    [data-glitch]::before,
+    [data-glitch]::after {
+        animation: none !important;
+        opacity: 0 !important;
+    }
+
+    [data-typewriter]::after {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
+    [data-glitch-hover]:hover::after,
+    .btn::before,
+    .contact::before,
+    .skill::before,
+    .hero__title,
+    .head__eyebrow::before,
+    .section::after,
+    .section--panel::after,
+    .toast.is-shown,
+    .ctrl--palette svg,
+    .skill__icon-anim,
+    .portrait__scan,
+    .section__divider-label,
+    .section__divider-line::after {
+        animation: none !important;
+    }
+
+    .marquee:hover .marquee__track {
+        animation-play-state: running !important;
+    }
+
+    .work-card:hover .ph--pulse .ph-core,
+    .work-card:hover .ph--pulse .ph-ring,
+    .work-card:hover .ph--morph .ph-morph-path,
+    .work-card:hover .ph--waves .ph-wave {
+        animation-duration: revert !important;
+    }
+
+    .orb {
+        translate: 0 0 !important;
+    }
+}
+
+/* =============================================================
+   МОБИЛЬНЫЕ
+   ============================================================= */
+@media (max-width: 900px) {
+    .hero__spotlight { display: none; }
+
+    [data-glitch]:hover::before,
+    [data-glitch]:hover::after {
+        display: none;
+    }
+}

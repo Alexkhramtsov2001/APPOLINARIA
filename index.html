@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru" data-palette="cyan">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>APPOLINARIA // GRAPHIC &amp; MOTION</title>
+    <meta name="description" content="Портфолио Аполлинарии Воробьевой — графического и моушн-дизайнера. Полиграфия, брендинг, анимация логотипов.">
+    <meta name="theme-color" content="#06060a">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="icon" href="./assets/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/effects.css">
+
+    <meta property="og:title" content="APPOLINARIA // GRAPHIC &amp; MOTION">
+    <meta property="og:description" content="Портфолио графического и моушн-дизайнера">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Appolinaria Vorobyeva",
+      "alternateName": "Аполлинария Воробьева",
+      "jobTitle": "Graphic & Motion Designer",
+      "email": "polina_vorobeva_2005@inbox.ru",
+      "address": { "@type": "PostalAddress", "addressLocality": "Челябинск", "addressCountry": "RU" },
+      "sameAs": ["https://t.me/apollonil", "https://instagram.com/apolliruss"]
+    }
+    </script>
+</head>
+<body>
+
+<!-- КАСТОМНЫЙ КУРСОР -->
+<div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+    <div class="cursor__label" id="cursorLabel"></div>
+</div>
+
+<!-- ФОНОВЫЙ CANVAS -->
+<canvas class="bg-canvas" id="bgCanvas" aria-hidden="true"></canvas>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" aria-hidden="true">
+    <span class="scroll-progress__fill" id="scrollProgress"></span>
+</div>
+
+<!-- ГЛИТЧ-СЛОИ -->
+<div class="glitch-layer" id="glitchLayer" aria-hidden="true"></div>
+
+<!-- НАВИГАЦИЯ -->
+<header class="nav" id="nav">
+    <a href="#home" class="nav__logo" aria-label="Наверх">
+        <svg viewBox="0 0 60 60" aria-hidden="true">
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">AV</text>
+        </svg>
+        <span class="nav__logo-pulse" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Основная навигация">
+        <a href="#home"    class="nav__link is-active"><span data-i18n="nav.home">Главная</span></a>
+        <a href="#about"   class="nav__link"><span data-i18n="nav.about">Обо мне</span></a>
+        <a href="#skills"  class="nav__link"><span data-i18n="nav.skills">Навыки</span></a>
+        <a href="#work"    class="nav__link"><span data-i18n="nav.work">Работы</span></a>
+        <a href="#contact" class="nav__link"><span data-i18n="nav.contact">Контакты</span></a>
+    </nav>
+
+    <div class="nav__actions">
+        <button class="ctrl ctrl--palette" type="button" id="paletteBtn" aria-label="Сменить палитру" title="Сменить палитру">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <circle cx="9" cy="9" r="1.2" fill="currentColor"/>
+                <circle cx="15" cy="9" r="1.2" fill="currentColor"/>
+                <circle cx="9" cy="15" r="1.2" fill="currentColor"/>
+                <circle cx="15" cy="15" r="1.2" fill="currentColor"/>
+            </svg>
+        </button>
+        <button class="ctrl ctrl--lang nav__lang" type="button" aria-label="Switch language">EN</button>
+        <button class="nav__burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- МОБИЛЬНОЕ МЕНЮ -->
+<div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu__inner" aria-label="Мобильная навигация">
+        <a href="#home"    class="menu__link" data-i18n="nav.home">Главная</a>
+        <a href="#about"   class="menu__link" data-i18n="nav.about">Обо мне</a>
+        <a href="#skills"  class="menu__link" data-i18n="nav.skills">Навыки</a>
+        <a href="#work"    class="menu__link" data-i18n="nav.work">Работы</a>
+        <a href="#contact" class="menu__link" data-i18n="nav.contact">Контакты</a>
+    </nav>
+    <button class="menu__lang nav__lang" type="button" aria-label="Switch language">EN</button>
+</div>
+
+<main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+         ═══════════════════════════════════════════════════════ -->
+    <section class="hero" id="home">
+        <div class="hero__orbs" aria-hidden="true">
+            <span class="orb orb--1"></span>
+            <span class="orb orb--2"></span>
+            <span class="orb orb--3"></span>
+        </div>
+
+        <div class="hero__spotlight" id="heroSpotlight" aria-hidden="true"></div>
+
+        <pre class="hero__code" aria-hidden="true">
+> init portfolio.exe
+> mount /design/motion
+> load skills.json ✓
+> ready to create_
+        </pre>
+
+        <div class="hero__content">
+            <p class="hero__status" data-reveal>
+                <span class="dot-pulse"></span>
+                <span data-i18n="hero.status">СИСТЕМА АКТИВНА · ЧЕЛЯБИНСК</span>
+            </p>
+
+            <h1 class="hero__title glitch" data-glitch data-i18n="hero.name" data-typewriter>
+                Аполлинария Воробьева
+            </h1>
+
+            <p class="hero__role" data-reveal data-i18n="hero.role">
+                Графический и моушн-дизайнер
+            </p>
+
+            <p class="hero__tagline" data-reveal data-i18n="hero.tagline">
+                Дизайн в движении — от статичного макета до ожившей анимации
+            </p>
+
+            <div class="hero__cta" data-reveal>
+                <a href="#work" class="btn btn--neon" data-magnetic>
+                    <span data-i18n="hero.cta_work">Смотреть работы</span>
+                    <span class="btn__arrow">→</span>
+                </a>
+                <a href="#contact" class="btn btn--ghost" data-magnetic>
+                    <span data-i18n="hero.cta_contact">Связаться</span>
+                </a>
+            </div>
+
+            <div class="hero__meta">
+                <span data-i18n="hero.meta_left">v2.0.25</span>
+                <span class="hero__meta-div">//</span>
+                <span data-i18n="hero.meta_right">creative.engine.online</span>
+            </div>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true">
+            <span class="scroll-hint__line"></span>
+            <span class="scroll-hint__text" data-i18n="hero.scroll">СКРОЛЛ</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MARQUEE — одна копия, JS клонирует до нужной ширины
+         ═══════════════════════════════════════════════════════ -->
+    <div class="marquee" aria-hidden="true" data-marquee>
+        <div class="marquee__track" data-marquee-track>
+            <span>PHOTOSHOP</span><span>◆</span>
+            <span>ILLUSTRATOR</span><span>◆</span>
+            <span>AFTER EFFECTS</span><span>◆</span>
+            <span>INDESIGN</span><span>◆</span>
+            <span>CORELDRAW</span><span>◆</span>
+            <span>MOTION DESIGN</span><span>◆</span>
+            <span>BRANDING</span><span>◆</span>
+            <span>TYPOGRAPHY</span><span>◆</span>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ABOUT — чётная секция (прозрачная, canvas виден)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section" id="about"
+             data-section-num="01"
+             data-section-label="ABOUT">
+        <span class="section__corner section__corner--tl" aria-hidden="true"></span>
+        <span class="section__corner section__corner--br" aria-hidden="true"></span>
+        <div class="section__divider" aria-hidden="true">
+            <span class="section__divider-line"></span>
+            <span class="section__divider-label">
+                <span class="section__divider-num" data-i18n="about.divider_num">01</span>
+                <span class="section__divider-text" data-i18n="about.divider_label">ABOUT</span>
+            </span>
+        </div>
+
+        <div class="container">
+            <header class="head">
+                <p class="head__eyebrow" data-reveal data-i18n="about.eyebrow">// 01 — ОБО МНЕ</p>
+                <h2 class="head__title glitch" data-glitch data-reveal data-i18n="about.title">Знакомство</h2>
+            </header>
+
+            <div class="about">
+                <div class="about__portrait" data-reveal>
+                    <div class="portrait">
+                        <img src="./assets/portrait.jpg" alt="Аполлинария Воробьева"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                        <span class="portrait__fallback">AV</span>
+                        <span class="portrait__scan" aria-hidden="true"></span>
+                        <span class="portrait__corner portrait__corner--tl" aria-hidden="true"></span>
+                        <span class="portrait__corner portrait__corner--tr" aria-hidden="true"></span>
+                        <span class="portrait__corner portrait__corner--bl" aria-hidden="true"></span>
+                        <span class="portrait__corner portrait__corner--br" aria-hidden="true"></span>
+                    </div>
+                    <p class="portrait__caption" aria-hidden="true">// GRAPHIC_ENGINE.bin</p>
+                </div>
+
+                <div class="about__text">
+                    <p data-reveal data-i18n="about.p1">Меня зовут Аполлинария, я начинающий графический и моушн-дизайнер из Челябинска.</p>
+                    <p data-reveal data-i18n="about.p2">Во время обучения проходила практику в типографиях — готовила макеты к печати, проверяла файлы и учитывала технические требования.</p>
+                    <p data-reveal data-i18n="about.p3">Сейчас развиваюсь в анимации логотипов в After Effects. Спокойно отношусь к правкам и довожу проект до качественного результата.</p>
+
+                    <div class="stats" data-reveal>
+                        <div class="stat">
+                            <span class="stat__num" data-count="5" data-suffix="+">0</span>
+                            <span class="stat__label" data-i18n="about.stat1">программ</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__num" data-count="3">0</span>
+                            <span class="stat__label" data-i18n="about.stat2">года обучения</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__num" data-count="10" data-suffix="+">0</span>
+                            <span class="stat__label" data-i18n="about.stat3">заказов</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SKILLS — нечётная секция (тёмная панель)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section section--panel" id="skills"
+             data-section-num="02"
+             data-section-label="SKILLS">
+        <span class="section__corner section__corner--tl" aria-hidden="true"></span>
+        <span class="section__corner section__corner--br" aria-hidden="true"></span>
+        <div class="section__divider" aria-hidden="true">
+            <span class="section__divider-line"></span>
+            <span class="section__divider-label">
+                <span class="section__divider-num" data-i18n="skills.divider_num">02</span>
+                <span class="section__divider-text" data-i18n="skills.divider_label">SKILLS</span>
+            </span>
+        </div>
+
+        <div class="container">
+            <header class="head">
+                <p class="head__eyebrow" data-reveal data-i18n="skills.eyebrow">// 02 — НАВЫКИ</p>
+                <h2 class="head__title glitch" data-glitch data-reveal data-i18n="skills.title">Что я умею</h2>
+            </header>
+
+            <div class="skills">
+                <article class="skill" data-reveal data-glitch-hover>
+                    <span class="skill__num">01</span>
+                    <div class="skill__icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="10" y="8" width="28" height="32" rx="2"/>
+                            <line x1="16" y1="16" x2="32" y2="16"/>
+                            <line x1="16" y1="22" x2="32" y2="22"/>
+                            <line x1="16" y1="28" x2="26" y2="28"/>
+                            <rect class="skill__icon-anim" x="10" y="8" width="28" height="32" rx="2"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="skills.print.title">Полиграфия</h3>
+                    <p data-i18n="skills.print.desc">Макеты для печати, подготовка файлов, работа с типографиями.</p>
+                    <ul class="skill__tags"><li>InDesign</li><li>Photoshop</li><li>CorelDRAW</li></ul>
+                </article>
+
+                <article class="skill" data-reveal data-glitch-hover>
+                    <span class="skill__num">02</span>
+                    <div class="skill__icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="24" cy="24" r="14"/>
+                            <circle class="skill__icon-anim" cx="24" cy="24" r="6"/>
+                            <line x1="24" y1="10" x2="24" y2="4"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="skills.brand.title">Брендинг</h3>
+                    <p data-i18n="skills.brand.desc">Логотипы, фирменный стиль, грамоты и открытки.</p>
+                    <ul class="skill__tags"><li>Illustrator</li><li>Photoshop</li></ul>
+                </article>
+
+                <article class="skill" data-reveal data-glitch-hover>
+                    <span class="skill__num">03</span>
+                    <div class="skill__icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="18,14 34,24 18,34"/>
+                            <circle class="skill__icon-anim" cx="12" cy="24" r="3"/>
+                            <circle cx="38" cy="24" r="3" stroke-dasharray="2 3"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="skills.motion.title">Motion Design</h3>
+                    <p data-i18n="skills.motion.desc">Анимация логотипов, микро-анимации, оживление статики.</p>
+                    <ul class="skill__tags"><li>After Effects</li></ul>
+                </article>
+
+                <article class="skill" data-reveal data-glitch-hover>
+                    <span class="skill__num">04</span>
+                    <div class="skill__icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="8" y="12" width="32" height="24" rx="3"/>
+                            <circle class="skill__icon-anim" cx="18" cy="24" r="3"/>
+                            <line x1="26" y1="22" x2="36" y2="22"/>
+                            <line x1="26" y1="28" x2="34" y2="28"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="skills.social.title">Соцсети</h3>
+                    <p data-i18n="skills.social.desc">Оформление, баннеры, визуальный контент для соцсетей.</p>
+                    <ul class="skill__tags"><li>Photoshop</li><li>Illustrator</li></ul>
+                </article>
+
+                <article class="skill skill--wide" data-reveal>
+                    <span class="skill__num">05</span>
+                    <h3 data-i18n="skills.stack.title">Мой стек</h3>
+                    <div class="equalizer" aria-hidden="true" id="equalizer"></div>
+                    <ul class="skill__tags skill__tags--wide">
+                        <li>Figma</li><li>Photoshop</li><li>Illustrator</li>
+                        <li>InDesign</li><li>After Effects</li><li>CorelDRAW</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         WORK — чётная (прозрачная)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section" id="work"
+             data-section-num="03"
+             data-section-label="WORK">
+        <span class="section__corner section__corner--tl" aria-hidden="true"></span>
+        <span class="section__corner section__corner--br" aria-hidden="true"></span>
+        <div class="section__divider" aria-hidden="true">
+            <span class="section__divider-line"></span>
+            <span class="section__divider-label">
+                <span class="section__divider-num" data-i18n="work.divider_num">03</span>
+                <span class="section__divider-text" data-i18n="work.divider_label">WORK</span>
+            </span>
+        </div>
+
+        <div class="container">
+            <header class="head">
+                <p class="head__eyebrow" data-reveal data-i18n="work.eyebrow">// 03 — РАБОТЫ</p>
+                <h2 class="head__title glitch" data-glitch data-reveal data-i18n="work.title">Избранные проекты</h2>
+                <p class="head__sub" data-reveal data-i18n="work.sub">
+                    Портфолио наполняется. Пока здесь анимированные превью — скоро заменю на реальные проекты.
+                </p>
+            </header>
+
+            <div class="work">
+                <article class="work-card" data-reveal data-cursor-label="OPEN">
+                    <div class="work-card__media">
+                        <div class="ph ph--pulse" aria-hidden="true">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="var(--neon-cyan)" stop-opacity="1"/>
+                                        <stop offset="100%" stop-color="var(--neon-cyan)" stop-opacity="0"/>
+                                    </radialGradient>
+                                </defs>
+                                <circle class="ph-ring" cx="100" cy="100" r="40"/>
+                                <circle class="ph-ring ph-ring--2" cx="100" cy="100" r="40"/>
+                                <circle class="ph-ring ph-ring--3" cx="100" cy="100" r="40"/>
+                                <circle class="ph-core" cx="100" cy="100" r="22" fill="url(#pulseGrad)"/>
+                                <text class="ph-label" x="100" y="106" text-anchor="middle">AV</text>
+                            </svg>
+                        </div>
+                        <span class="work-card__badge" data-i18n="work.soon">В РАЗРАБОТКЕ</span>
+                    </div>
+                    <div class="work-card__body">
+                        <h3 data-i18n="work.p1.title">Анимация логотипа</h3>
+                        <p data-i18n="work.p1.desc">Цикл оживления логотипа: сборка, вращение, пульс.</p>
+                        <div class="work-card__tags"><span>MOTION</span><span>LOGO</span></div>
+                    </div>
+                </article>
+
+                <article class="work-card" data-reveal data-cursor-label="OPEN">
+                    <div class="work-card__media">
+                        <div class="ph ph--morph" aria-hidden="true">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <path class="ph-morph-path" d="M100,40 L160,100 L100,160 L40,100 Z"/>
+                                <circle class="ph-morph-dot" cx="100" cy="100" r="3"/>
+                            </svg>
+                        </div>
+                        <span class="work-card__badge" data-i18n="work.soon">В РАЗРАБОТКЕ</span>
+                    </div>
+                    <div class="work-card__body">
+                        <h3 data-i18n="work.p2.title">Идентичность бренда</h3>
+                        <p data-i18n="work.p2.desc">Разработка логотипа и фирменного стиля с анимацией.</p>
+                        <div class="work-card__tags"><span>BRANDING</span><span>UI</span></div>
+                    </div>
+                </article>
+
+                <article class="work-card" data-reveal data-cursor-label="OPEN">
+                    <div class="work-card__media">
+                        <div class="ph ph--waves" aria-hidden="true">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <path class="ph-wave ph-wave--1" d="M0,100 Q50,60 100,100 T200,100" fill="none"/>
+                                <path class="ph-wave ph-wave--2" d="M0,100 Q50,60 100,100 T200,100" fill="none"/>
+                                <path class="ph-wave ph-wave--3" d="M0,100 Q50,60 100,100 T200,100" fill="none"/>
+                            </svg>
+                        </div>
+                        <span class="work-card__badge" data-i18n="work.soon">В РАЗРАБОТКЕ</span>
+                    </div>
+                    <div class="work-card__body">
+                        <h3 data-i18n="work.p3.title">Оформление соцсетей</h3>
+                        <p data-i18n="work.p3.desc">Визуальный контент и баннеры для социальных сетей.</p>
+                        <div class="work-card__tags"><span>SMM</span><span>GRAPHIC</span></div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PROCESS — нечётная (тёмная панель)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section section--panel" id="process"
+             data-section-num="04"
+             data-section-label="PROCESS">
+        <span class="section__corner section__corner--tl" aria-hidden="true"></span>
+        <span class="section__corner section__corner--br" aria-hidden="true"></span>
+        <div class="section__divider" aria-hidden="true">
+            <span class="section__divider-line"></span>
+            <span class="section__divider-label">
+                <span class="section__divider-num" data-i18n="process.divider_num">04</span>
+                <span class="section__divider-text" data-i18n="process.divider_label">PROCESS</span>
+            </span>
+        </div>
+
+        <div class="container">
+            <header class="head">
+                <p class="head__eyebrow" data-reveal data-i18n="process.eyebrow">// 04 — ПРОЦЕСС</p>
+                <h2 class="head__title glitch" data-glitch data-reveal data-i18n="process.title">Как я работаю</h2>
+            </header>
+
+            <div class="process">
+                <svg class="process__lines" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="process__line" d="M100,100 L300,100 L300,100 L500,100 L500,100 L700,100 L700,100 L900,100"/>
+                </svg>
+                <ol class="process__steps">
+                    <li data-reveal>
+                        <span class="process__num">01</span>
+                        <h3 data-i18n="process.s1.title">Обсуждение</h3>
+                        <p data-i18n="process.s1.desc">Разбираю задачу, уточняю пожелания.</p>
+                    </li>
+                    <li data-reveal>
+                        <span class="process__num">02</span>
+                        <h3 data-i18n="process.s2.title">Концепция</h3>
+                        <p data-i18n="process.s2.desc">Референсы, визуальный язык, композиция.</p>
+                    </li>
+                    <li data-reveal>
+                        <span class="process__num">03</span>
+                        <h3 data-i18n="process.s3.title">Дизайн</h3>
+                        <p data-i18n="process.s3.desc">Создаю макет, вношу правки, готовлю файлы.</p>
+                    </li>
+                    <li data-reveal>
+                        <span class="process__num">04</span>
+                        <h3 data-i18n="process.s4.title">Анимация</h3>
+                        <p data-i18n="process.s4.desc">Оживляю дизайн в After Effects.</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CONTACT — чётная (прозрачная)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="section" id="contact"
+             data-section-num="05"
+             data-section-label="CONTACT">
+        <span class="section__corner section__corner--tl" aria-hidden="true"></span>
+        <span class="section__corner section__corner--br" aria-hidden="true"></span>
+        <div class="section__divider" aria-hidden="true">
+            <span class="section__divider-line"></span>
+            <span class="section__divider-label">
+                <span class="section__divider-num" data-i18n="contact.divider_num">05</span>
+                <span class="section__divider-text" data-i18n="contact.divider_label">CONTACT</span>
+            </span>
+        </div>
+
+        <div class="container">
+            <header class="head">
+                <p class="head__eyebrow" data-reveal data-i18n="contact.eyebrow">// 05 — КОНТАКТЫ</p>
+                <h2 class="head__title glitch" data-glitch data-reveal data-i18n="contact.title">Давайте знакомиться</h2>
+                <p class="head__sub" data-reveal data-i18n="contact.sub">
+                    Открыта для предложений о работе, стажировке и частных заказах.
+                </p>
+            </header>
+
+            <div class="contacts">
+                <a href="https://t.me/apollonil" target="_blank" rel="noopener noreferrer"
+                   class="contact" data-reveal data-cursor-label="SEND">
+                    <span class="contact__code">01</span>
+                    <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 3.5L2.5 11l6 2 2 6 4-5 5 4 2-14.5z"/>
+                    </svg>
+                    <h3>TELEGRAM</h3>
+                    <span class="contact__value">@apollonil</span>
+                </a>
+
+                <button type="button" class="contact" data-copy-email="polina_vorobeva_2005@inbox.ru"
+                        data-reveal data-cursor-label="COPY">
+                    <span class="contact__code">02</span>
+                    <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="M3 7l9 6 9-6"/>
+                    </svg>
+                    <h3>EMAIL</h3>
+                    <span class="contact__value">polina_vorobeva_2005@inbox.ru</span>
+                </button>
+
+                <a href="https://instagram.com/apolliruss" target="_blank" rel="noopener noreferrer"
+                   class="contact" data-reveal data-cursor-label="OPEN">
+                    <span class="contact__code">03</span>
+                    <svg class="contact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="5"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+                    </svg>
+                    <h3>INSTAGRAM</h3>
+                    <span class="contact__value">@apolliruss</span>
+                </a>
+            </div>
+
+            <p class="contact-note" data-reveal data-i18n="contact.note">
+                Отвечаю в течение 24 часов. Буду рада обсудить задачу или встретиться на созвоне.
+            </p>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer__inner">
+        <div class="footer__col">
+            <span class="footer__label">// SYS.STATUS</span>
+            <span class="footer__value"><span class="dot-pulse"></span> ONLINE</span>
+        </div>
+        <div class="footer__col footer__col--center">
+            <span data-i18n="footer.copy">© 2025 Аполлинария Воробьева</span>
+        </div>
+        <div class="footer__col footer__col--right">
+            <span class="footer__made" data-i18n="footer.made">made with ♥ + code</span>
+        </div>
+    </div>
+</footer>
+
+<!-- BOOT-ЭКРАН -->
+<div class="boot" id="boot" aria-hidden="true">
+    <div class="boot__screen">
+        <pre class="boot__log" id="bootLog"></pre>
+        <div class="boot__bar"><span class="boot__bar-fill" id="bootBar"></span></div>
+        <p class="boot__hint">PRESS <kbd>SPACE</kbd> TO SKIP</p>
+    </div>
+    <div class="boot__scanlines"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- СКРИПТЫ -->
+<script type="module" src="./js/main.js"></script>
+
+</body>
+</html>
